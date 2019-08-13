@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=`, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <label>Type in a number:</label>
+  <input type="number" placeholder="00" id="getnumber">
+  
+  <div id="app"></div>
+
+
+  <script>
+      fetch(`http://jsonplaceholder.typicode.com/posts/`)
+      .then(response => response.json())
+      .then(data => {
+        
+        let output = data.map(d => `
+          <h1>${d.title}</h1>
+          <p>${d.body}</p>
+          <hr>
+        `
+        ).join("")
+        
+      document.querySelector('#app').innerHTML = output
+      })
+    // Select the object / tag / id or class
+    let getid = document.querySelector('#getnumber');
+    // Add an event (action), that triggers a function based on the type of action we set
+    getid.addEventListener('input', () => changeItem(getid.value))    
+  
+    // This the function
+    function changeItem(mid) {
+      fetch(`http://jsonplaceholder.typicode.com/posts/${mid}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(mid)
+        let output = `
+          <h1>${data.title}</h1>
+          <p>${data.body}</p>
+          <hr>
+        `
+        document.querySelector('#app').innerHTML = output
+    })}
+  
+  </script>
+
+</body>
+</html>
